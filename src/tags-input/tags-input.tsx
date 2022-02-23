@@ -1,45 +1,54 @@
-import * as React from 'react';
-import { Tag, WithContext as ReactTags } from 'react-tag-input';
+import * as React from 'react'
+import { Tag, WithContext as ReactTags } from 'react-tag-input'
 
 const KeyCodes = {
   comma: 188,
   enter: 13,
-};
+}
 
-const delimiters = [KeyCodes.comma, KeyCodes.enter];
+const delimiters = [KeyCodes.comma, KeyCodes.enter]
 
 interface TagInputProps {
-  suggestions: string[];
-  selected: string[];
+  suggestions: string[]
+  selected: string[]
 }
 
 export function TagsInput({ selected, suggestions }: TagInputProps) {
-  const selectedTags = createTags(selected);
-  const suggestionsTags = createTags(suggestions);
+  const selectedTags = createTags(selected)
+  const suggestionsTags = createTags(suggestions)
 
-  const [tags, setTags] = React.useState(selectedTags);
+  const [tags, setTags] = React.useState(selectedTags)
+  const [input, setInput] = React.useState('')
 
   const handleDelete = (i: number) => {
-    setTags(tags.filter((tag, index) => index !== i));
-  };
+    setTags(tags.filter((tag, index) => index !== i))
+  }
 
   const handleAddition = (tag: Tag) => {
-    setTags([...tags, tag]);
-  };
+    // Prevent empty tags
+    if (!input) {
+      return
+    }
+    setTags([...tags, tag])
+    setInput('')
+  }
 
   const handleDrag = (tag: Tag, currPos: number, newPos: number) => {
-    const newTags = tags.slice();
+    const newTags = tags.slice()
 
-    newTags.splice(currPos, 1);
-    newTags.splice(newPos, 0, tag);
+    newTags.splice(currPos, 1)
+    newTags.splice(newPos, 0, tag)
 
     // re-render
-    setTags(newTags);
-  };
+    setTags(newTags)
+  }
 
-  const handleTagClick = (index: number) => {
-    console.log('The tag at index ' + index + ' was clicked');
-  };
+  const handleAddClick = () => {
+    handleAddition({
+      id: input,
+      text: input,
+    })
+  }
 
   return (
     <div className="mx-auto mt-12 max-w-sm">
@@ -51,9 +60,9 @@ export function TagsInput({ selected, suggestions }: TagInputProps) {
           handleDelete={handleDelete}
           handleAddition={handleAddition}
           handleDrag={handleDrag}
-          handleTagClick={handleTagClick}
+          inputValue={input}
+          handleInputChange={setInput}
           inputFieldPosition="bottom"
-          autocomplete
           classNames={{
             tags: 'w-full',
             selected: 'flex flex-wrap gap-2 mb-2',
@@ -61,21 +70,25 @@ export function TagsInput({ selected, suggestions }: TagInputProps) {
             tagInputField:
               'border-gray-500 border-2 rounded-lg px-4 py-2 w-full',
             // ⚠️ Suggestions are styled in `index.css`, so don't use `suggestions` prop,
-            // because they'll be overwritten.
+            // because it will overwrite existing styles.
             // suggestions <- Don't use it!
+            // renderSuggestion
           }}
         />
-        <button className="absolute right-1.5 -mt-[38px] rounded-lg bg-blue-500 p-2 text-xs text-white">
+        <button
+          onClick={handleAddClick}
+          className="absolute right-1.5 -mt-[38px] rounded-lg bg-blue-500 p-2 text-xs text-white"
+        >
           Add
         </button>
       </div>
     </div>
-  );
+  )
 }
 
 function createTags(suggestions: string[]): Tag[] {
   return suggestions.map(suggestion => ({
     id: suggestion,
     text: suggestion,
-  }));
+  }))
 }

@@ -3,11 +3,11 @@
 @tailwind utilities;
 
 .ReactTags__suggestions {
-  @apply bg-white rounded-lg shadow-lg mt-2 overflow-hidden absolute;
+  @apply absolute mt-2 w-full overflow-hidden rounded-lg bg-white shadow-lg;
 }
 .ReactTags__suggestions ul {
-  @apply max-h-64 overflow-y-auto ;
+  @apply max-h-64 overflow-y-auto;
 }
 .ReactTags__suggestions li {
-  @apply text-sm text-gray-700 hover:bg-gray-100 p-2 cursor-pointer;
+  @apply cursor-pointer p-2 text-sm text-gray-700 hover:bg-gray-100;
 }
