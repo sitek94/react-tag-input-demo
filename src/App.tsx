@@ -49,7 +49,7 @@ const App = () => {
 
   return (
     <div className="mx-auto mt-12 max-w-sm">
-      <div>
+      <div className="relative">
         <ReactTags
           tags={tags}
           suggestions={suggestions}
@@ -71,6 +71,9 @@ const App = () => {
             // suggestions <- Don't use it!
           }}
         />
+        <button className="absolute right-1.5 -mt-[38px] rounded-lg bg-blue-500 p-2 text-xs text-white">
+          Add
+        </button>
       </div>
     </div>
   );
