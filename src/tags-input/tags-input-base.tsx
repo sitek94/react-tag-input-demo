@@ -13,6 +13,7 @@ interface TagInputProps {
   onTagsChange: (tags: Tag[]) => void
   input: string
   onInputChange: (input: string) => void
+  allowDuplicates?: boolean
 }
 
 export function TagsInput({
@@ -20,6 +21,7 @@ export function TagsInput({
   onTagsChange,
   input,
   onInputChange,
+  allowDuplicates = false,
 }: TagInputProps) {
   const handleDelete = (i: number) => {
     onTagsChange(tags.filter((tag, index) => index !== i))
@@ -28,6 +30,10 @@ export function TagsInput({
   const handleAddition = (tag: Tag) => {
     // Prevent empty tags
     if (!input) {
+      return
+    }
+    // Prevent adding duplicate tags
+    if (!allowDuplicates && tags.find(t => t.text === input)) {
       return
     }
     onTagsChange([...tags, tag])

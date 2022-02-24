@@ -27,18 +27,12 @@ function TestForm({
   )
 }
 
-function setup({
-  defaultFieldValue,
-  preselectedTags,
-}: {
-  defaultFieldValue: string[]
-  preselectedTags: string[]
-}) {
+function setup({ defaultFieldValue }: { defaultFieldValue: string[] }) {
   const onSubmit = jest.fn()
 
   render(
     <TestForm onSubmit={onSubmit} defaultFieldValue={defaultFieldValue}>
-      <TagsInputField name={FIELD_NAME} preselectedTags={preselectedTags} />
+      <TagsInputField name={FIELD_NAME} />
     </TestForm>,
   )
 
@@ -60,9 +54,7 @@ describe('TagsInputField', () => {
       .spyOn(console, 'error')
       .mockImplementation(jest.fn())
 
-    expect(() =>
-      render(<TagsInputField name="test-name" preselectedTags={[]} />),
-    ).toThrow()
+    expect(() => render(<TagsInputField name="test-name" />)).toThrow()
 
     // Clean up `console.error` mock.
     consoleErrorSpy.mockRestore()
@@ -70,8 +62,7 @@ describe('TagsInputField', () => {
 
   it('should render `preselectedTags`', () => {
     const { getByText } = setup({
-      defaultFieldValue: [],
-      preselectedTags: ['Switzerland', 'France'],
+      defaultFieldValue: ['Switzerland', 'France'],
     })
 
     expect(getByText('Switzerland')).toBeInTheDocument()
@@ -80,8 +71,7 @@ describe('TagsInputField', () => {
 
   it('should  `preselectedTags`', () => {
     const { getByText } = setup({
-      defaultFieldValue: [],
-      preselectedTags: ['Switzerland', 'France'],
+      defaultFieldValue: ['Switzerland', 'France'],
     })
 
     expect(getByText('Switzerland')).toBeInTheDocument()

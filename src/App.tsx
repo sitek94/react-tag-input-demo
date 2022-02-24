@@ -21,7 +21,7 @@ const App = () => {
     <div className="mx-auto mt-12 max-w-sm">
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <TagsInputField name="my-tags" preselectedTags={defaultTags} />
+          <TagsInputField name="my-tags" />
           <button
             type="submit"
             className="mt-2 rounded-lg bg-blue-500 p-2 text-white"

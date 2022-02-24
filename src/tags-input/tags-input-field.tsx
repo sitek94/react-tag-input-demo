@@ -5,10 +5,13 @@ import { TagsInput } from 'tags-input/tags-input-base'
 
 interface TagsInputFieldProps {
   name: string
-  preselectedTags: string[]
+  allowDuplicates?: boolean
 }
 
-export function TagsInputField({ name, preselectedTags }: TagsInputFieldProps) {
+export function TagsInputField({
+  name,
+  allowDuplicates = false,
+}: TagsInputFieldProps) {
   const context = useFormContext()
   if (!context) {
     throw new Error('❌ `TagsInputField` must be used within a `FormProvider`')
@@ -22,9 +25,9 @@ export function TagsInputField({ name, preselectedTags }: TagsInputFieldProps) {
   const [tags, setTags] = React.useState(createTags(field.value))
   const [input, setInput] = React.useState('')
 
-  const handleTagsChange = (tags: Tag[]) => {
-    setTags(tags)
-    field.onChange(tags.map(tag => tag.id))
+  const handleTagsChange = (newTags: Tag[]) => {
+    setTags(newTags)
+    field.onChange(newTags.map(tag => tag.id))
   }
 
   const handleInputChange = (input: string) => {
@@ -33,6 +36,14 @@ export function TagsInputField({ name, preselectedTags }: TagsInputFieldProps) {
     // and the input value. Thanks to this, when user submits the form, the tag that
     // wasn't confirmed by pressing enter will be submitted as well.
     setInput(input)
+
+    // Don't change `field.value` if input is empty
+    if (!input) {
+      return
+    }
+    if (!allowDuplicates && field.value.includes(input)) {
+      return
+    }
 
     // When starting typing, the input value is not yet in the field value, so append it
     // to the end. Then replace the last input value with the new one.
