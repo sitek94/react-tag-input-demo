@@ -1,9 +1,6 @@
 import * as React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
-import { createTags, TagsInput } from 'tags-input/tags-input.controlled'
 import { TagsInputField } from 'tags-input/tags-input-field'
-
-// import COUNTRIES from './countries.json'
 
 const App = () => {
   const [formData, setFormData] = React.useState()
