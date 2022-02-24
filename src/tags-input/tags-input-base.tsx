@@ -51,18 +51,6 @@ export function TagsInput({
     })
   }
 
-  // const handleInputChange = (value: string) => {
-  //   setInput(value)
-  //   onInputChange(value)
-  //   const newTag = createTag(value)
-  //   if (initialSelectedTags.length < tags.length) {
-  //     onTagsChange([...tags, newTag])
-  //   } else {
-  //     const currentTags = tags.slice(-1)
-  //     onTagsChange([...currentTags, newTag])
-  //   }
-  // }
-
   return (
     <div className="mx-auto mt-12 max-w-sm">
       <div className="relative">
@@ -89,6 +77,7 @@ export function TagsInput({
           }}
         />
         <button
+          type="button"
           onClick={handleAddClick}
           className="absolute right-1.5 -mt-[38px] rounded-lg bg-blue-500 p-2 text-xs text-white"
         >
