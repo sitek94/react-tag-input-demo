@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useController, useFormContext } from 'react-hook-form'
 import { Tag } from 'react-tag-input'
-import { TagsInput } from 'tags-input/tags-input-base'
+import { TagsInput } from 'tags-input'
 
 interface TagsInputFieldProps {
   name: string
@@ -56,7 +56,7 @@ export function TagsInputField({
 
   return (
     <TagsInput
-      input={input}
+      inputValue={input}
       tags={tags}
       onInputChange={handleInputChange}
       onTagsChange={handleTagsChange}

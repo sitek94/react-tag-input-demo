@@ -9,28 +9,35 @@ const KeyCodes = {
 const delimiters = [KeyCodes.comma, KeyCodes.enter]
 
 interface TagInputProps {
-  suggestions: string[]
-  selected: string[]
+  tags: Tag[]
+  onTagsChange: (tags: Tag[]) => void
+  inputValue: string
+  onInputChange: (input: string) => void
+  allowDuplicates?: boolean
 }
 
-export function TagsInput({ selected, suggestions }: TagInputProps) {
-  const selectedTags = createTags(selected)
-  const suggestionsTags = createTags(suggestions)
-
-  const [tags, setTags] = React.useState(selectedTags)
-  const [input, setInput] = React.useState('')
-
+export function TagsInput({
+  tags,
+  onTagsChange,
+  inputValue,
+  onInputChange,
+  allowDuplicates = false,
+}: TagInputProps) {
   const handleDelete = (i: number) => {
-    setTags(tags.filter((tag, index) => index !== i))
+    onTagsChange(tags.filter((tag, index) => index !== i))
   }
 
   const handleAddition = (tag: Tag) => {
     // Prevent empty tags
-    if (!input) {
+    if (!inputValue) {
       return
     }
-    setTags([...tags, tag])
-    setInput('')
+    // Prevent adding duplicate tags
+    if (!allowDuplicates && tags.find(t => t.text === inputValue)) {
+      return
+    }
+    onTagsChange([...tags, tag])
+    onInputChange('')
   }
 
   const handleDrag = (tag: Tag, currPos: number, newPos: number) => {
@@ -40,13 +47,13 @@ export function TagsInput({ selected, suggestions }: TagInputProps) {
     newTags.splice(newPos, 0, tag)
 
     // re-render
-    setTags(newTags)
+    onTagsChange(newTags)
   }
 
   const handleAddClick = () => {
     handleAddition({
-      id: input,
-      text: input,
+      id: inputValue,
+      text: inputValue,
     })
   }
 
@@ -55,13 +62,13 @@ export function TagsInput({ selected, suggestions }: TagInputProps) {
       <div className="relative">
         <ReactTags
           tags={tags}
-          suggestions={suggestionsTags}
+          suggestions={[]}
           delimiters={delimiters}
           handleDelete={handleDelete}
           handleAddition={handleAddition}
           handleDrag={handleDrag}
-          inputValue={input}
-          handleInputChange={setInput}
+          inputValue={inputValue}
+          handleInputChange={onInputChange}
           inputFieldPosition="bottom"
           classNames={{
             tags: 'w-full',
@@ -76,6 +83,7 @@ export function TagsInput({ selected, suggestions }: TagInputProps) {
           }}
         />
         <button
+          type="button"
           onClick={handleAddClick}
           className="absolute right-1.5 -mt-[38px] rounded-lg bg-blue-500 p-2 text-xs text-white"
         >
@@ -86,9 +94,13 @@ export function TagsInput({ selected, suggestions }: TagInputProps) {
   )
 }
 
-function createTags(suggestions: string[]): Tag[] {
-  return suggestions.map(suggestion => ({
+export function createTags(suggestions: string[]): Tag[] {
+  return suggestions.map(createTag)
+}
+
+function createTag(suggestion: string): Tag {
+  return {
     id: suggestion,
     text: suggestion,
-  }))
+  }
 }
