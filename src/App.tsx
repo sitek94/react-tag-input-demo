@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
+import { createTags, TagsInput } from 'tags-input'
 import { TagsInputField } from 'tags-input/tags-input-field'
 
 const App = () => {
@@ -13,6 +14,9 @@ const App = () => {
   })
   const { handleSubmit } = methods
   const onSubmit = data => setFormData(data)
+
+  const [input, setInput] = React.useState('initial')
+  const [tags, setTags] = React.useState(createTags(defaultTags))
 
   return (
     <div className="mx-auto mt-12 max-w-sm">
@@ -28,6 +32,13 @@ const App = () => {
         </form>
       </FormProvider>
       <pre>{JSON.stringify(formData, null, 2)}</pre>
+      <hr />
+      <TagsInput
+        inputValue={input}
+        tags={tags}
+        onTagsChange={setTags}
+        onInputChange={setInput}
+      />
     </div>
   )
 }
