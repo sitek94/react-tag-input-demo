@@ -49,10 +49,40 @@ describe('TagsInput', () => {
     clickDeleteButtonAtIndex(2)
     expect(onTagsChange).toHaveBeenCalledWith([tag1, tag2])
   })
+
+  it('should NOT call `onTagsChange` nor `onInputChange`, when clicking on `Add` button and input is empty', () => {
+    const { onTagsChange, onInputChange, clickAddButton } = setup({
+      inputValue: '',
+    })
+
+    clickAddButton()
+
+    expect(onTagsChange).not.toHaveBeenCalled()
+    expect(onInputChange).not.toHaveBeenCalled()
+  })
+
+  describe('when `allowDuplicates=false`', () => {
+    it('should NOT call `onTagsChange` nor `onInputChange`, when clicking on `Add` button and input value is already in tags', () => {
+      const { onTagsChange, onInputChange, clickAddButton } = setup({
+        inputValue: 'duplicated',
+        tags: createTags(['duplicated', 'a', 'b', 'c']),
+        allowDuplicates: false,
+      })
+
+      clickAddButton()
+
+      expect(onTagsChange).not.toHaveBeenCalled()
+      expect(onInputChange).not.toHaveBeenCalled()
+    })
+  })
 })
 
-function setup(params?: { inputValue?: string; tags?: Tag[] }) {
-  const { inputValue = '', tags = [] } = params || {}
+function setup(params?: {
+  inputValue?: string
+  tags?: Tag[]
+  allowDuplicates?: boolean
+}) {
+  const { inputValue = '', tags = [], allowDuplicates } = params || {}
   const onInputChange = jest.fn()
   const onTagsChange = jest.fn()
 
@@ -62,6 +92,7 @@ function setup(params?: { inputValue?: string; tags?: Tag[] }) {
       onInputChange={onInputChange}
       tags={tags}
       onTagsChange={onTagsChange}
+      allowDuplicates={allowDuplicates}
     />,
   )
 

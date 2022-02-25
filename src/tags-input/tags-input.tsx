@@ -40,6 +40,10 @@ export function TagsInput({
     onInputChange('')
   }
 
+  // It's not really a good idea to test drag'n'drop functionality in `jsdom` environment.
+  // Also, `react-tag-input` is doing heavy lifting here, so we don't need to include this
+  // handler in test coverage.
+  // istanbul ignore next
   const handleDrag = (tag: Tag, currPos: number, newPos: number) => {
     const newTags = tags.slice()
 

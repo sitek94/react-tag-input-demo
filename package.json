@@ -10,7 +10,7 @@
     "lint:fix": "npm run lint -- --fix",
     "start": "react-scripts start",
     "test": "react-scripts test",
-    "test:coverage": "npm run test -- --coverage"
+    "test:coverage": "npm run test -- --coverage --watchAll=false"
   },
   "dependencies": {
     "react": "^17.0.2",
