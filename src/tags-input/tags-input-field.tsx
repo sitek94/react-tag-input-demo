@@ -22,12 +22,14 @@ export function TagsInputField({
     control,
   })
 
-  const [tags, setTags] = React.useState(createTags(field.value))
+  // 🪝 Use ref, because we want to internal state of `TagsInput` component, but
+  // we don't want to cause any re-renders in the same time.
+  const tags = React.useRef(createTags(field.value))
   const [input, setInput] = React.useState('')
 
   const handleTagsChange = (newTags: Tag[]) => {
-    setTags(newTags)
     field.onChange(newTags.map(tag => tag.id))
+    tags.current = newTags
   }
 
   const handleInputChange = (input: string) => {
@@ -37,19 +39,22 @@ export function TagsInputField({
     // wasn't confirmed by pressing enter will be submitted as well.
     setInput(input)
 
-    // Don't change `field.value` if input is empty
-    if (!input) {
-      return
-    }
     if (!allowDuplicates && field.value.includes(input)) {
       return
     }
 
-    // When starting typing, the input value is not yet in the field value, so append it
-    // to the end. Then replace the last input value with the new one.
-    if (field.value.length === tags.length) {
+    // When input is empty, and there are more tags than in the form field, update
+    // the form field with to match the tags.
+    if (input === '' || tags.current.length > field.value.length) {
+      field.onChange(tags.current.map(tag => tag.id))
+
+      // When starting typing, the input value is not yet in the field value, so append it
+      // to the end.
+    } else if (field.value.length === tags.current.length) {
       field.onChange([...field.value, input])
-    } else {
+
+      // Replace the last input value with the new one.
+    } else if (field.value.length > tags.current.length) {
       field.onChange([...field.value.slice(0, -1), input])
     }
   }
@@ -57,7 +62,7 @@ export function TagsInputField({
   return (
     <TagsInput
       inputValue={input}
-      tags={tags}
+      tags={tags.current}
       onInputChange={handleInputChange}
       onTagsChange={handleTagsChange}
     />
