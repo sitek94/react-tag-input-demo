@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Tag, WithContext as ReactTags } from 'react-tag-input'
+import { SearchIcon } from '@heroicons/react/outline'
 
 const KeyCodes = {
   comma: 188,
@@ -82,13 +83,15 @@ export function TagsInput({
             selected: 'flex flex-wrap gap-2 mb-2',
             tag: 'inline-flex items-center gap-2 p-2 bg-gray-200 rounded-lg',
             tagInputField:
-              'border-gray-500 border-2 rounded-lg px-4 py-2 w-full',
+              'border-gray-500 border-2 rounded-lg py-2 pl-7 pr-12 w-full',
+
             // ⚠️ Suggestions are styled in `index.css`, so don't use `suggestions` prop,
             // because it will overwrite existing styles.
             // suggestions <- Don't use it!
             // renderSuggestion
           }}
         />
+        <SearchIcon className="absolute left-1.5 -mt-8 h-5 w-5 text-gray-500" />
         <button
           type="button"
           onClick={handleAddClick}
