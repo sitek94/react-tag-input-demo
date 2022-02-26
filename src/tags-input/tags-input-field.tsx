@@ -22,8 +22,8 @@ export function TagsInputField({
     control,
   })
 
-  // 🪝 Use ref, because we want to internal state of `TagsInput` component, but
-  // we don't want to cause any re-renders in the same time.
+  // 🪝 Use ref to keep internal state of `TagsInput` component and to not cause
+  // any re-renders in the same time.
   const tags = React.useRef(createTags(field.value))
   const [input, setInput] = React.useState('')
 
@@ -39,12 +39,8 @@ export function TagsInputField({
     // wasn't confirmed by pressing enter will be submitted as well.
     setInput(input)
 
-    if (!allowDuplicates && field.value.includes(input)) {
-      return
-    }
-
     // When input is empty, and there are more tags than in the form field, update
-    // the form field with to match the tags.
+    // the form field to match the tags.
     if (input === '' || tags.current.length > field.value.length) {
       field.onChange(tags.current.map(tag => tag.id))
 
@@ -59,12 +55,24 @@ export function TagsInputField({
     }
   }
 
+  // If `allowDuplicates=false` remove duplicates from the field value.
+  React.useEffect(() => {
+    if (allowDuplicates) {
+      return
+    }
+    const uniqueTags = Array.from<string>(new Set(field.value))
+    if (field.value.length !== uniqueTags.length) {
+      field.onChange(uniqueTags)
+    }
+  }, [allowDuplicates, field])
+
   return (
     <TagsInput
       inputValue={input}
       tags={tags.current}
       onInputChange={handleInputChange}
       onTagsChange={handleTagsChange}
+      allowDuplicates={allowDuplicates}
     />
   )
 }

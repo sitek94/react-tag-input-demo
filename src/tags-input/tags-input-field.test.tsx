@@ -3,6 +3,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { TagsInputField } from 'tags-input/tags-input-field'
+import MockedFn = jest.MockedFn
 
 describe('TagsInputField', () => {
   it('should throw when used out of `FormProvider` context', () => {
@@ -103,6 +104,19 @@ describe('TagsInputField', () => {
     await waitForStateUpdate()
     expect(getNthSubmittedValue(1)).toEqual(tags)
   })
+
+  it('should allow submitting duplicates, when `allowDuplicates=true`', async () => {
+    const tags = ['baz']
+    const { submit, getNthSubmittedValue, type } = setup({
+      defaultFieldValue: tags,
+      allowDuplicates: true,
+    })
+
+    type('baz')
+    submit()
+    await waitForStateUpdate()
+    expect(getNthSubmittedValue(1)).toEqual(['baz', 'baz'])
+  })
 })
 
 const FIELD_NAME = 'my-tags'
@@ -110,9 +124,11 @@ const FIELD_NAME = 'my-tags'
 function TestForm({
   onSubmit,
   defaultFieldValue,
+  allowDuplicates,
 }: {
-  onSubmit: any
-  defaultFieldValue: any
+  onSubmit: MockedFn<any>
+  defaultFieldValue?: string[]
+  allowDuplicates?: boolean
 }) {
   const methods = useForm({
     defaultValues: {
@@ -123,7 +139,7 @@ function TestForm({
   return (
     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(onSubmit)}>
-        <TagsInputField name={FIELD_NAME} />
+        <TagsInputField name={FIELD_NAME} allowDuplicates={allowDuplicates} />
         <button data-testid="submit" type="submit">
           Submit
         </button>
@@ -132,9 +148,21 @@ function TestForm({
   )
 }
 
-function setup({ defaultFieldValue }: { defaultFieldValue: string[] }) {
+function setup({
+  defaultFieldValue,
+  allowDuplicates = false,
+}: {
+  defaultFieldValue: string[]
+  allowDuplicates?: boolean
+}) {
   const onSubmit = jest.fn()
-  render(<TestForm onSubmit={onSubmit} defaultFieldValue={defaultFieldValue} />)
+  render(
+    <TestForm
+      onSubmit={onSubmit}
+      defaultFieldValue={defaultFieldValue}
+      allowDuplicates={allowDuplicates}
+    />,
+  )
 
   const submitButton = screen.getByTestId('submit')
   const addButton = screen.getByRole('button', { name: 'Add' })
@@ -145,7 +173,6 @@ function setup({ defaultFieldValue }: { defaultFieldValue: string[] }) {
   const clearInput = () => userEvent.clear(input)
   const getByText = (text: string) => screen.getByText(text)
   const submit = () => userEvent.click(submitButton)
-
   const getNthSubmittedValue = (n: number) =>
     onSubmit.mock.calls[n - 1][0][FIELD_NAME]
 
@@ -160,6 +187,9 @@ function setup({ defaultFieldValue }: { defaultFieldValue: string[] }) {
   }
 }
 
+/**
+ * Tiny helper to avoid having to wrap `expect` in `await waitFor(() => ...)`
+ */
 async function waitForStateUpdate() {
   await waitFor(async () => Promise.resolve())
 }
