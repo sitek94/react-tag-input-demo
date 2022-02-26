@@ -6,11 +6,13 @@ import { TagsInput } from 'tags-input'
 interface TagsInputFieldProps {
   name: string
   allowDuplicates?: boolean
+  suggestions?: string[]
 }
 
 export function TagsInputField({
   name,
   allowDuplicates = false,
+  suggestions = [],
 }: TagsInputFieldProps) {
   const context = useFormContext()
   if (!context) {
@@ -39,7 +41,7 @@ export function TagsInputField({
     // wasn't confirmed by pressing enter will be submitted as well.
     setInput(input)
 
-    // When input is empty, and there are more tags than in the form field, update
+    // When input is empty or there are more tags than in the form field, update
     // the form field to match the tags.
     if (input === '' || tags.current.length > field.value.length) {
       field.onChange(tags.current.map(tag => tag.id))
@@ -73,6 +75,7 @@ export function TagsInputField({
       onInputChange={handleInputChange}
       onTagsChange={handleTagsChange}
       allowDuplicates={allowDuplicates}
+      suggestions={suggestions}
     />
   )
 }

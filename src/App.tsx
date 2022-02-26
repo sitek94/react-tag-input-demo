@@ -3,6 +3,8 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { createTags, TagsInput } from 'tags-input'
 import { TagsInputField } from 'tags-input/tags-input-field'
 
+import COUNTRIES from './countries.json'
+
 const App = () => {
   const [formData, setFormData] = React.useState()
   const tagsFieldName = 'my-tags'
@@ -15,7 +17,7 @@ const App = () => {
   const { handleSubmit } = methods
   const onSubmit = data => setFormData(data)
 
-  const [input, setInput] = React.useState('initial')
+  const [input, setInput] = React.useState('')
   const [tags, setTags] = React.useState(createTags(defaultTags))
 
   return (
@@ -38,6 +40,7 @@ const App = () => {
         tags={tags}
         onTagsChange={setTags}
         onInputChange={setInput}
+        suggestions={COUNTRIES}
       />
     </div>
   )

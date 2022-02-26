@@ -14,6 +14,7 @@ interface TagInputProps {
   inputValue: string
   onInputChange: (input: string) => void
   allowDuplicates?: boolean
+  suggestions?: string[]
 }
 
 export function TagsInput({
@@ -22,6 +23,7 @@ export function TagsInput({
   inputValue,
   onInputChange,
   allowDuplicates = false,
+  suggestions = [],
 }: TagInputProps) {
   const handleDelete = (i: number) => {
     onTagsChange(tags.filter((tag, index) => index !== i))
@@ -66,7 +68,7 @@ export function TagsInput({
       <div className="relative">
         <ReactTags
           tags={tags}
-          suggestions={[]}
+          suggestions={createTags(suggestions)}
           delimiters={delimiters}
           handleDelete={handleDelete}
           handleAddition={handleAddition}
@@ -74,6 +76,7 @@ export function TagsInput({
           inputValue={inputValue}
           handleInputChange={onInputChange}
           inputFieldPosition="bottom"
+          renderSuggestion={({ id, text }) => <span key={id}>{text}</span>}
           classNames={{
             tags: 'w-full',
             selected: 'flex flex-wrap gap-2 mb-2',
