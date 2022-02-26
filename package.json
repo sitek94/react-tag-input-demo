@@ -1,6 +1,15 @@
 {
   "name": "react-tag-input-demo",
   "version": "0.1.0",
+  "description": "Example integration of React Tags and React Hook Form",
+  "homepage": "https://sitek94.github.io/react-tag-input-demo/",
+  "keywords": [
+    "react",
+    "react-hook-form",
+    "react-tags",
+    "react-tag-input",
+    "tailwindcss"
+  ],
   "private": true,
   "scripts": {
     "build": "react-scripts build",
