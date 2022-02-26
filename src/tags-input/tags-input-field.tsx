@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useController, useFormContext } from 'react-hook-form'
 import { Tag } from 'react-tag-input'
-import { TagsInput } from 'tags-input'
+import { createTags, TagsInput } from 'tags-input'
 
 interface TagsInputFieldProps {
   name: string
@@ -78,15 +78,4 @@ export function TagsInputField({
       suggestions={suggestions}
     />
   )
-}
-
-export function createTags(suggestions: string[]): Tag[] {
-  return suggestions.map(createTag)
-}
-
-function createTag(suggestion: string): Tag {
-  return {
-    id: suggestion,
-    text: suggestion,
-  }
 }
