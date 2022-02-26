@@ -16,7 +16,7 @@ npm run test:coverage
 npm run build
 ```
 
-# Patched Packages
+## Patched Packages
 
 - `react-tag-input` - I opened an issue [#840](https://github.com/react-tags/react-tags/issues/840) to extend
   class names that can be used to style `<ul>` and `<li>` elements within suggestions wrapper, 
