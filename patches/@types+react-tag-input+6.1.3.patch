@@ -1,0 +1,13 @@
+diff --git a/node_modules/@types/react-tag-input/index.d.ts b/node_modules/@types/react-tag-input/index.d.ts
+index 5fab236..631cf36 100755
+--- a/node_modules/@types/react-tag-input/index.d.ts
++++ b/node_modules/@types/react-tag-input/index.d.ts
+@@ -59,6 +59,8 @@ export interface ReactTagsProps {
+         tag?: string | undefined;
+         remove?: string | undefined;
+         suggestions?: string | undefined;
++        suggestionsList?: string | undefined;
++        suggestionsListItem?: string | undefined;
+         activeSuggestion?: string | undefined;
+     } | undefined;
+ }

@@ -1,0 +1,73 @@
+diff --git a/node_modules/react-tag-input/dist-modules/components/Suggestions.js b/node_modules/react-tag-input/dist-modules/components/Suggestions.js
+index d35737b..d34e78d 100644
+--- a/node_modules/react-tag-input/dist-modules/components/Suggestions.js
++++ b/node_modules/react-tag-input/dist-modules/components/Suggestions.js
+@@ -22,6 +22,10 @@ var _escape = require('lodash/escape');
+ 
+ var _escape2 = _interopRequireDefault(_escape);
+ 
++var _classnames = require('classnames');
++
++var _classnames2 = _interopRequireDefault(_classnames);
++
+ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+ 
+ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+@@ -68,8 +72,8 @@ var Suggestions = function (_Component) {
+       };
+     }, _this.shouldRenderSuggestions = function (query) {
+       var _this$props = _this.props,
+-          minQueryLength = _this$props.minQueryLength,
+-          isFocused = _this$props.isFocused;
++        minQueryLength = _this$props.minQueryLength,
++        isFocused = _this$props.isFocused;
+ 
+       return query.length >= minQueryLength && isFocused;
+     }, _this.renderSuggestion = function (item, query) {
+@@ -94,8 +98,8 @@ var Suggestions = function (_Component) {
+     key: 'componentDidUpdate',
+     value: function componentDidUpdate(prevProps) {
+       var _props = this.props,
+-          selectedIndex = _props.selectedIndex,
+-          classNames = _props.classNames;
++        selectedIndex = _props.selectedIndex,
++        classNames = _props.classNames;
+ 
+ 
+       if (this.suggestionsContainer && prevProps.selectedIndex !== selectedIndex) {
+@@ -122,7 +126,7 @@ var Suggestions = function (_Component) {
+             onMouseDown: props.handleClick.bind(null, i),
+             onTouchStart: props.handleClick.bind(null, i),
+             onMouseOver: props.handleHover.bind(null, i),
+-            className: i === props.selectedIndex ? props.classNames.activeSuggestion : '' },
++            className: (0, _classnames2.default)(i === props.selectedIndex && props.classNames.activeSuggestion, props.classNames.suggestionsListItem) },
+           this.renderSuggestion(item, props.query)
+         );
+       }.bind(this));
+@@ -142,10 +146,8 @@ var Suggestions = function (_Component) {
+           className: this.props.classNames.suggestions },
+         _react2.default.createElement(
+           'ul',
+-          null,
+-          ' ',
+-          suggestions,
+-          ' '
++          { className: this.props.classNames.suggestionsList },
++          suggestions
+         )
+       );
+     }
+@@ -163,7 +165,12 @@ Suggestions.propTypes = {
+   minQueryLength: _propTypes2.default.number,
+   shouldRenderSuggestions: _propTypes2.default.func,
+   isFocused: _propTypes2.default.bool.isRequired,
+-  classNames: _propTypes2.default.object,
++  classNames: _propTypes2.default.shape({
++    activeSuggestion: _propTypes2.default.string,
++    suggestions: _propTypes2.default.string,
++    suggestionsList: _propTypes2.default.string,
++    suggestionsListItem: _propTypes2.default.string
++  }),
+   labelField: _propTypes2.default.string.isRequired,
+   renderSuggestion: _propTypes2.default.func
+ };

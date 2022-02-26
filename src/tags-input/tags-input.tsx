@@ -85,11 +85,11 @@ export function TagsInput({
             tag: 'inline-flex items-center gap-2 p-2 bg-gray-200 rounded-lg',
             tagInputField:
               'border-gray-500 border-2 rounded-lg py-2 pl-7 pr-12 w-full',
-            suggestions: [
-              // Custom class for styling the elements that are not exposed by the library
-              'TagsInput__suggestions',
+            suggestions:
               'z-50 absolute mt-2 w-full overflow-hidden rounded-lg bg-white shadow-lg',
-            ].join(' '),
+            suggestionsList: 'max-h-64 overflow-y-auto',
+            suggestionsListItem:
+              'cursor-pointer p-2 text-sm text-gray-700 hover:bg-gray-100',
           }}
         />
         <SearchIcon className="absolute left-1.5 -mt-8 h-5 w-5 text-gray-500" />
