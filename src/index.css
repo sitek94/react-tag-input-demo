@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .ReactTags__suggestions {
-  @apply absolute mt-2 w-full overflow-hidden rounded-lg bg-white shadow-lg;
+  @apply z-50 absolute mt-2 w-full overflow-hidden rounded-lg bg-white shadow-lg;
 }
 .ReactTags__suggestions ul {
   @apply max-h-64 overflow-y-auto;

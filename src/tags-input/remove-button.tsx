@@ -11,6 +11,12 @@ interface RemoveButtonProps {
 const crossStr = String.fromCharCode(215)
 
 /**
+ * ℹ️
+ *
+ * Right now, this component is not used. I'm leaving in for the future reference though.
+ */
+
+/**
  * ⚠️
  *
  * When passing this component to `removeComponent` prop of `ReactTags`, TypeScript will

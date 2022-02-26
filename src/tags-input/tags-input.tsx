@@ -64,7 +64,7 @@ export function TagsInput({
   }
 
   return (
-    <div className="mx-auto mt-12 max-w-sm">
+    <div className="not-prose max-w-sm">
       <div className="relative">
         <ReactTags
           tags={tags}
