@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Tag, WithContext as ReactTags } from 'react-tag-input'
 import { SearchIcon } from '@heroicons/react/outline'
+import { renderSuggestion } from 'tags-input/render-suggestion'
 
 const KeyCodes = {
   comma: 188,
@@ -77,18 +78,18 @@ export function TagsInput({
           inputValue={inputValue}
           handleInputChange={onInputChange}
           inputFieldPosition="bottom"
-          renderSuggestion={({ id, text }) => <span key={id}>{text}</span>}
+          renderSuggestion={renderSuggestion}
           classNames={{
             tags: 'w-full',
             selected: 'flex flex-wrap gap-2 mb-2',
             tag: 'inline-flex items-center gap-2 p-2 bg-gray-200 rounded-lg',
             tagInputField:
               'border-gray-500 border-2 rounded-lg py-2 pl-7 pr-12 w-full',
-
-            // ⚠️ Suggestions are styled in `index.css`, so don't use `suggestions` prop,
-            // because it will overwrite existing styles.
-            // suggestions <- Don't use it!
-            // renderSuggestion
+            suggestions: [
+              // Custom class for styling the elements that are not exposed by the library
+              'TagsInput__suggestions',
+              'z-50 absolute mt-2 w-full overflow-hidden rounded-lg bg-white shadow-lg',
+            ].join(' '),
           }}
         />
         <SearchIcon className="absolute left-1.5 -mt-8 h-5 w-5 text-gray-500" />
