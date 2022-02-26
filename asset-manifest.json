@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/react-tag-input-demo/static/css/main.06e5f984.css",
-    "main.js": "/react-tag-input-demo/static/js/main.12520365.js",
+    "main.css": "/react-tag-input-demo/static/css/main.676ec3c4.css",
+    "main.js": "/react-tag-input-demo/static/js/main.e23b47af.js",
     "index.html": "/react-tag-input-demo/index.html",
-    "main.06e5f984.css.map": "/react-tag-input-demo/static/css/main.06e5f984.css.map",
-    "main.12520365.js.map": "/react-tag-input-demo/static/js/main.12520365.js.map"
+    "main.676ec3c4.css.map": "/react-tag-input-demo/static/css/main.676ec3c4.css.map",
+    "main.e23b47af.js.map": "/react-tag-input-demo/static/js/main.e23b47af.js.map"
   },
   "entrypoints": [
-    "static/css/main.06e5f984.css",
-    "static/js/main.12520365.js"
+    "static/css/main.676ec3c4.css",
+    "static/js/main.e23b47af.js"
   ]
 }
